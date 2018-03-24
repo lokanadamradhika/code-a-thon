@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmployeeDB_Model_NS.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="EmployeeDB_Model_NSStoreContainer">
+    <EntitySet Name="Employees" EntityType="EmployeeDB_Model_NS.Store.Employees" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Employees_Employees" Association="EmployeeDB_Model_NS.Store.FK_Employees_Employees">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Employees1" EntitySet="Employees" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="EmployeeId" />
+    </Key>
+    <Property Name="EmployeeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Title" Type="nvarchar" MaxLength="30" />
+    <Property Name="TitleOfCourtesy" Type="nvarchar" MaxLength="25" />
+    <Property Name="BirthDate" Type="datetime" />
+    <Property Name="HireDate" Type="datetime" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="60" />
+    <Property Name="City" Type="nvarchar" MaxLength="15" />
+    <Property Name="Region" Type="nvarchar" MaxLength="15" />
+    <Property Name="PostalCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="Country" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="HomePhone" Type="nvarchar" Nullable="false" MaxLength="24" />
+    <Property Name="Extension" Type="nvarchar" MaxLength="4" />
+    <Property Name="Photo" Type="image" />
+    <Property Name="Notes" Type="ntext" />
+    <Property Name="ReportsTo" Type="int" />
+  </EntityType>
+  <Association Name="FK_Employees_Employees">
+    <End Role="Employees" Type="EmployeeDB_Model_NS.Store.Employees" Multiplicity="0..1" />
+    <End Role="Employees1" Type="EmployeeDB_Model_NS.Store.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="Employees1">
+        <PropertyRef Name="ReportsTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

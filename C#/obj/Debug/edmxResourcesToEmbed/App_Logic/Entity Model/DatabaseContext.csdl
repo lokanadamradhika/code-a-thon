@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model_Namespace" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="DatabaseContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="Model_Namespace.Employee" />
+    <AssociationSet Name="FK_Employees_Employees" Association="Model_Namespace.FK_Employees_Employees">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Employees1" EntitySet="Employees" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EmployeeId" />
+    </Key>
+    <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="Title" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="TitleOfCourtesy" Type="String" MaxLength="25" Unicode="true" FixedLength="false" />
+    <Property Name="BirthDate" Type="DateTime" />
+    <Property Name="HireDate" Type="DateTime" Nullable="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="60" Unicode="true" FixedLength="false" />
+    <Property Name="City" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="Region" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="PostalCode" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="Country" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="HomePhone" Type="String" Nullable="false" MaxLength="24" Unicode="true" FixedLength="false" />
+    <Property Name="Extension" Type="String" MaxLength="4" Unicode="true" FixedLength="false" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Notes" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ReportsTo" Type="Int32" />
+    <NavigationProperty Name="Subordinates" Relationship="Model_Namespace.FK_Employees_Employees" FromRole="Employees" ToRole="Employees1" />
+    <NavigationProperty Name="Supervisor" Relationship="Model_Namespace.FK_Employees_Employees" FromRole="Employees1" ToRole="Employees" />
+  </EntityType>
+  <Association Name="FK_Employees_Employees">
+    <End Role="Employees" Type="Model_Namespace.Employee" Multiplicity="0..1" />
+    <End Role="Employees1" Type="Model_Namespace.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="Employees1">
+        <PropertyRef Name="ReportsTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="EmployeeWithSupervisorName">
+    <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="SupervisorFirstName" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="SupervisorLastName" Nullable="false" MaxLength="20" />
+  </ComplexType>
+</Schema>
