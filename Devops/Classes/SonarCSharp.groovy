@@ -27,7 +27,7 @@ def sonarAnalysisCSharp(def workspace,def passwordsonar)
 				
 				bat """ "C:\\Program Files (x86)\\opencover\\OpenCover.Console.exe" \
 				-register:admin -target:"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\TestAgent\\Common7\\IDE\\MSTest.exe" \
-				-targetargs:/testcontainer:MIOnline.Services.Tests.dll -targetargs:/resultsfile:testresults.trx \
+				-targetargs:/testcontainer:******* -targetargs:/resultsfile:testresults.trx \
 				-"filter:+[*]* -[*.pdb]*" -output:coverage.xml -mergebyhash """
 			}	
 			

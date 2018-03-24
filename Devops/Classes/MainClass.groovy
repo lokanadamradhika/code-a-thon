@@ -1,6 +1,6 @@
-def vsSlnPath = 'Radian Web Applications\\MI Online\\web\\MIOnline.Web.sln'
-def workspaceDir = "D:\\jenkins\\MIOnline_Work"
-checkoutCredentials= 'b075b292-3f9f-4cf7-857b-5c186a1d5cbd'
+def vsSlnPath = 'C:\\Users\\SRINATH REDDY\\Desktop\\Codethon\\Samplecode\\C#\\Eisk.Web.Solution.sln'
+def workspaceDir = "C:\\Users\\SRINATH REDDY\\Desktop\\Codethon\\Jenkins_workspace"
+checkoutCredentials= '7e1582fa-e119-4c2e-8829-8226dc91f57a'
 def branch
 def msBuildNuGetPath
 def webSlnPath
@@ -14,11 +14,11 @@ def minorversion
 def DBKey
 def artifactfolder
 
-projectUrl= 'ssh://git@radcab:2222/mionline-web/radian-applications.git'
+projectUrl= 'https://github.com/lokanadamradhika/code-a-thon.git'
 
-node('windows')
+node('master')
 {
-	env.SonarQube = tool 'SonarQube'
+	//env.SonarQube = tool 'SonarQube'
 	env.javaHome = tool 'Java'
 	env.SonarMsBuild =  tool 'SonarQubeMSBuild'
 	
@@ -52,25 +52,10 @@ node('windows')
 				deploymentfile = load "${workspaceDir}\\Devops\\Classes\\DeploymentPropertiesCreation.groovy"
 				deploymentfile.createDeploymentProperties("${workspaceDir}","Devops\\DeploymentLogs\\${env.Environment}\\Deploymentdetails.properties")
 			}
-			stage('Build Nugget')
-			{
-				nuggetbuild = load "${workspaceDir}\\Devops\\Classes\\NuggetBuild.groovy"
-				nuggetbuild.buildNugget("${workspaceDir}")
-			}
-			stage('Npm Install')
-			{
-				npminstall = load "${workspaceDir}\\Devops\\Classes\\Installnpm.groovy"
-				npminstall.npmInstall("${workspaceDir}")
-			}
 			stage('Build')
 			{
 				build = load "${workspaceDir}\\Devops\\Classes\\Build.groovy"
 				build.build("${workspaceDir}")
-			}
-			stage('Sonar AngularJS')
-			{
-				sonarjs = load "${workspaceDir}\\Devops\\Classes\\SonarAngularJS.groovy"
-				sonarjs.sonarAngularJS("${workspaceDir}")
 			}
 			stage('Sonar Analysis C#')
 			{
@@ -83,20 +68,15 @@ node('windows')
 				artifactfolder.createArtifactFolder("${workspaceDir}")
 				artifactfolder.copyFilesToArtifacts("${workspaceDir}")
 			}
-			stage('Transformation')
-			{
-				transform = load "${workspaceDir}\\Devops\\Classes\\Transformation.groovy"
-				transform.transformWebConfig("${workspaceDir}")
-				transform.transformPublishXml("${workspaceDir}","DBPassKey")
-				transform.transformJson("${workspaceDir}")
-				transform.transformAPIWebConfig("${workspaceDir}")
-				artifactfolder.zipArtifacts("${workspaceDir}")
-			}
-			stage('DB Deployment')
-			{
-				dbdeploy = load "${workspaceDir}\\Devops\\Classes\\DBDeployment.groovy"
-				dbdeploy.dbDeployment("${workspaceDir}")
-			}
+			//stage('Transformation')
+			//{
+			//	transform = load "${workspaceDir}\\Devops\\Classes\\Transformation.groovy"
+			//	transform.transformWebConfig("${workspaceDir}")
+			//	transform.transformPublishXml("${workspaceDir}","DBPassKey")
+			//	transform.transformJson("${workspaceDir}")
+			//	transform.transformAPIWebConfig("${workspaceDir}")
+			//	artifactfolder.zipArtifacts("${workspaceDir}")
+			//}
 			stage('Deployment')
 			{
 				deploy = load "${workspaceDir}\\Devops\\Classes\\Deploy.groovy"
